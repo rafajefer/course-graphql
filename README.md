@@ -2,7 +2,24 @@
 
 Este projeto foi desenvolvido como parte de um estudo sobre o GraphQL, seguindo o curso da Cod3er.
 
-### Passo a passo
+🎥 **[Acesse o Curso](https://www.cod3r.com.br/courses/graphql-criando-apis-profissionais-e-flexiveis)**
+
+---
+
+## **Pré-requisitos**  
+
+Antes de começar, certifique-se de ter os seguintes requisitos:  
+
+- **MySQL** 8.0+  
+- **Node.js** 18.19+  
+
+Ou, alternativamente, utilize **Docker** (recomendado):  
+
+- **Docker** instalado em seu sistema  
+
+---
+
+## **Instalação e Configuração**  
 
 Clone Repositório
 
@@ -32,6 +49,18 @@ npm install
 npm start
 ```
 
+---
+
+## **Acessando a Aplicação**  
+
+Após a inicialização, a aplicação estará disponível em:  
+
+- **Aplicação:** [http://localhost:4000](http://localhost:4000)  
+
+---
+
+## **Comandos Úteis**  
+
 ### Comandos docker
 
 Para start o container utilizando o docker composer
@@ -52,6 +81,9 @@ docker exec -it graphql-container bash
 docker compose down
 ```
 
+
+
+---
 
 ## Referências
 **[Documentação GraphQL](https://graphql.org/learn/)**
