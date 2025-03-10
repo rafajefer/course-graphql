@@ -42,6 +42,7 @@ docker exec -it graphql-container bash
 ```
 
 ```sh
+cd projeto
 npm install
 ```
 
