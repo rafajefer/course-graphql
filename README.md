@@ -1,6 +1,6 @@
 # Curso GraphQL da Cod3r
 
-Este projeto foi desenvolvido como parte de um estudo sobre o Laravel, seguindo o curso da EspecializaTi.
+Este projeto foi desenvolvido como parte de um estudo sobre o GraphQL, seguindo o curso da Cod3er.
 
 ### Passo a passo
 
@@ -51,3 +51,7 @@ docker exec -it graphql-container bash
 ```sh
 docker compose down
 ```
+
+
+## Referências
+**[Documentação GraphQL](https://graphql.org/learn/)**
