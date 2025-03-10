@@ -123,7 +123,7 @@ Aqui estão alguns exemplos de operações que você pode realizar no Playground
 query {
     usuarios {
         id
-        name
+        nome
         email
         idade
         perfil {
@@ -218,6 +218,6 @@ mutation {
 ---
 
 ## **Referências**
-**[Documentação Oficial do GraphQL](https://graphql.org/learn/)**
-**[Documentação do Apollo Server](https://www.apollographql.com/docs/apollo-server)**
-**[Documentação do Docker](https://docs.docker.com/)**
+**[Documentação Oficial do GraphQL](https://graphql.org/learn/)**  
+**[Documentação do Apollo Server](https://www.apollographql.com/docs/apollo-server)**  
+**[Documentação do Docker](https://docs.docker.com/)**  
