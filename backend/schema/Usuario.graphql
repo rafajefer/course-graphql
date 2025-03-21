@@ -1,0 +1,37 @@
+# enum UsuarioStatus {
+#     ATIVO
+#     INATIVO
+#     BLOQUEADO
+# }
+
+type Usuario {
+    id: ID!
+    nome: String!
+    email: String!
+    token: String
+    perfis: [Perfil]
+}
+
+input UsuarioInput {
+    nome: String
+    email: String
+    senha: String
+    perfis: [PerfilInput]
+    # idade: Int
+}
+
+input UsuarioRegistrarInput {
+    nome: String!
+    email: String!
+    senha: String!
+}
+
+input UsuarioLoginInput {
+    email: String!
+    senha: String!
+}
+
+input UsuarioFiltro {
+    id: Int
+    email: String
+}

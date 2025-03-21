@@ -38,24 +38,27 @@ cd course-graphql
 docker compose up -d
 ```
 
-4. Acesse o container:
+4. Instale as dependências do projeto:
 ```sh
-docker exec -it graphql-container bash
+docker exec -it --user root graphql-container npm install
 ```
 
-5. Navegue até a pasta do projeto dentro do container:
+5. Inicie a aplicação (backend):
 ```sh
-cd projeto
+docker exec -it graphql-container npm start
 ```
+
 
 6. Instale as dependências do projeto:
 ```sh
-npm install
+docker exec -it --user root vuejs-container npm install
 ```
 
-7. Inicie a aplicação:
+7. Inicie a aplicação (frontend):
 ```sh
-npm start
+docker exec -it vuejs-container npm run serve
+
+docker exec -it --user root vuejs-container bash
 ```
 
 ---
@@ -71,7 +74,7 @@ Após a inicialização, a aplicação estará disponível em:
 <!-- ## **Estrutura do Projeto**  
 ```
 course-graphql/
-├── projeto/               # Pasta principal do projeto
+├── backend/               # Pasta principal do projeto
 │   ├── src/               # Código-fonte da aplicação
 │   │   ├── schema/        # Definições do schema GraphQL
 │   │   ├── resolvers/     # Resolvers para queries e mutations
@@ -109,6 +112,32 @@ docker exec -it graphql-container bash
 Parar o container:
 ```sh
 docker compose down
+```
+
+Instalar nova dependencia:
+```sh
+docker exec -it --user root graphql-container npm install dotenv --save
+```
+
+### Comandos knex
+Para criar um nova migration
+```sh
+docker exec -it graphql-container npx knex migrate:make tabela_perfis
+```
+
+Executando as migrations
+```sh
+docker exec -it graphql-container npx knex migrate:latest
+```
+
+Executando rollback das migrations
+```sh
+docker exec -it graphql-container npx knex migrate:rollback
+```
+
+Inserindo dados na tabela
+```sh
+docker exec -it graphql-container node testes/insert.js
 ```
 
 ---
@@ -195,7 +224,7 @@ mutation {
 ```
 
 
-- **Excluir usuário por:**
+- **Excluir usuário:**
 ```graphql
 mutation {
     excluirUsuario(
@@ -220,4 +249,5 @@ mutation {
 ## **Referências**
 **[Documentação Oficial do GraphQL](https://graphql.org/learn/)**  
 **[Documentação do Apollo Server](https://www.apollographql.com/docs/apollo-server)**  
+**[Documentação do knex](https://knexjs.org/guide/)**  
 **[Documentação do Docker](https://docs.docker.com/)**  

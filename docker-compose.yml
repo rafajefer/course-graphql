@@ -1,5 +1,5 @@
 services:
-  app:
+  server:
     container_name: graphql-container
     build:
       context: .
@@ -7,7 +7,53 @@ services:
     restart: unless-stopped
     ports:
       - "4000:4000"
-    working_dir: /app
+    working_dir: /app/backend
     volumes:
       - .:/app
     tty: true
+    networks:
+      - course_graphql_network
+  client:
+    container_name: vuejs-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    working_dir: /app/frontend
+    volumes:
+      - .:/app
+    tty: true
+    networks:
+      - course_graphql_network
+  db:
+    image: mysql:8.0
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'course_graphql'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - "3306:3306"
+    volumes:
+      - './.docker/mysql/dbdata:/var/lib/mysql'
+    networks:
+      - course_graphql_network
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      platform: linux/x86_64
+      restart: unless-stopped
+      container_name: phpmyadmin
+      ports:
+          - "8001:80"
+      environment:
+          PMA_HOST: db
+          PMA_PORT: 3306
+          MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD:-root}
+      networks:
+          - course_graphql_network
+networks:
+  course_graphql_network:
+    driver: bridge

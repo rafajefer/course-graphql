@@ -1,0 +1,52 @@
+type Mutation {
+
+    registrarUsuario(
+        dados: UsuarioRegistrarInput!
+    ): Usuario!
+
+    # Mutations de Usuario
+    novoUsuario(
+        dados: UsuarioInput!
+    ): Usuario!
+
+    excluirUsuario(
+        filtro: UsuarioFiltro!
+    ): Usuario
+
+    alterarUsuario(
+        filtro: UsuarioFiltro!,
+        dados: UsuarioInput!
+    ): Usuario
+
+    # Mutations de Perfil
+    novoPerfil(
+        dados: PerfilInput!
+    ): Perfil!
+
+    excluirPerfil(
+        filtro: PerfilFiltro!,
+    ): Perfil
+
+    alterarPerfil(
+        filtro: PerfilFiltro!,
+        dados: PerfilInput!
+    ): Perfil
+
+    # Mutations de Tarefas
+    novaTarefa(
+        dados: TarefaInput!
+    ): Tarefa!
+
+    excluirTarefa(
+        filtro: TarefaFiltro!
+    ): Tarefa
+
+    alterarTarefa(
+        filtro: TarefaFiltro!,
+        dados: TarefaInput!
+    ): Tarefa
+
+    concluirTarefa(
+        filtro: TarefaFiltro!
+    ): Tarefa
+}

@@ -1,0 +1,14 @@
+type Tarefa {
+    id: Int!
+    nome: String!
+    concluido: Boolean!
+}
+
+input TarefaInput {
+    nome: String!
+}
+
+input TarefaFiltro {
+    id: Int
+    nome: String
+}
