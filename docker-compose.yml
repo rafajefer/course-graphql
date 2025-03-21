@@ -15,12 +15,10 @@ services:
       - course_graphql_network
   client:
     container_name: vuejs-container
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: node:16
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "8080:8080"
     working_dir: /app/frontend
     volumes:
       - .:/app
@@ -28,7 +26,7 @@ services:
     networks:
       - course_graphql_network
   db:
-    image: mysql:8.0
+    image: mysql:5.7
     container_name: db
     restart: always
     environment:
