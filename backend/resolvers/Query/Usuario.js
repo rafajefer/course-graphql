@@ -18,7 +18,7 @@ module.exports = {
             throw new Error('Usuário/Senha inválidos')
         }
 
-        return usuario
+        return getUsuarioLogado(usuario)
     },
     usuarios(_, args, context) {
         context && context.validarAdmin()
