@@ -48,20 +48,28 @@ cd course-graphql
 docker compose up -d
 ```
 
-4. Rodar migrations e instalar dependências
+4. Rodar migrations
 ```sh
 docker exec -it graphql-container npx knex migrate:latest
-docker exec -it --user root vuejs-container npm install
+```
+
+5. Instale as dependências do backend GraphQL
+```sh
 docker exec -it --user root graphql-container npm install
 ```
 
-5. Inicie o backend da aplicação:
+6. Instale as dependências do frontend Vue.JS
+```sh
+docker exec -it --user root vuejs-container npm install
+```
+
+7. Inicie o backend da aplicação:
 ```sh
 docker exec -it graphql-container npm start
 ```
 
 
-6. Inicie a aplicação (frontend):
+8. Inicie a aplicação (frontend):
 ```sh
 docker exec -it vuejs-container npm run serve
 ```
