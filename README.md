@@ -1,8 +1,18 @@
-# Curso GraphQL da Cod3r
+# 🚀 Curso GraphQL - Cod3r  
 
-Este projeto foi desenvolvido como parte de um estudo sobre o GraphQL, seguindo o curso da Cod3r. O objetivo é criar uma API flexível e profissional utilizando GraphQL, explorando conceitos como queries, mutations, schemas e integração com banco de dados MySQL.
+Este projeto foi desenvolvido como parte do estudo sobre **GraphQL**, através do curso da **Cod3r**. O objetivo é construir uma **API profissional e flexível** utilizando GraphQL, explorando conceitos como **queries, mutations, schemas** e integração com **MySQL**.
 
-🎥 **[Acesse o Curso](https://www.cod3r.com.br/courses/graphql-criando-apis-profissionais-e-flexiveis)**
+📚 **[Acesse o Curso](https://www.cod3r.com.br/courses/graphql-criando-apis-profissionais-e-flexiveis)**  
+
+---
+
+## 📌 **Tecnologias Utilizadas**
+- **GraphQL** - Consulta de APIs flexível e eficiente  
+- **Node.js** - Plataforma JavaScript para backend  
+- **Vue.js** - Framework JavaScript para frontend  
+- **Knex.js** - Query builder para SQL  
+- **MySQL** - Banco de dados relacional  
+- **Docker** - Containerização da aplicação  
 
 ---
 
@@ -10,8 +20,8 @@ Este projeto foi desenvolvido como parte de um estudo sobre o GraphQL, seguindo 
 
 Antes de começar, certifique-se de ter os seguintes requisitos:  
 
-- **MySQL** 8.0+  
-- **Node.js** 18.19+  
+- **MySQL** 5.7  
+- **Node.js** 16
 
 Ou, alternativamente, utilize **Docker** (recomendado):  
 
@@ -33,32 +43,27 @@ git clone https://github.com/rafajefer/course-graphql.git
 cd course-graphql
 ```
 
-3. Inicie o container Docker:
+3. Iniciar os containers (Docker):
 ```sh
 docker compose up -d
 ```
 
-4. Instale as dependências do projeto:
+4. Rodar migrations e instalar dependências
 ```sh
+docker exec -it graphql-container npx knex migrate:latest
+docker exec -it --user root vuejs-container npm install
 docker exec -it --user root graphql-container npm install
 ```
 
-5. Inicie a aplicação (backend):
+5. Inicie o backend da aplicação:
 ```sh
 docker exec -it graphql-container npm start
 ```
 
 
-6. Instale as dependências do projeto:
-```sh
-docker exec -it --user root vuejs-container npm install
-```
-
-7. Inicie a aplicação (frontend):
+6. Inicie a aplicação (frontend):
 ```sh
 docker exec -it vuejs-container npm run serve
-
-docker exec -it --user root vuejs-container bash
 ```
 
 ---
@@ -68,6 +73,8 @@ docker exec -it --user root vuejs-container bash
 Após a inicialização, a aplicação estará disponível em:  
 
 - **Playground GraphQL:** [http://localhost:4000](http://localhost:4000)  
+- **Client Vue.JS:** [http://localhost:8080](http://localhost:8080)  
+- **PhpMyAdmin:** [http://localhost:8001](http://localhost:8001)  
 
 ---
 
@@ -90,14 +97,14 @@ course-graphql/
 
 ## **Comandos Úteis**
 
-### Permissões de Arquivos
+### 📂 Permissões de Arquivos
 
 Caso crie ou edite arquivos dentro do container Docker, você pode precisar ajustar as permissões:
 ```sh
 sudo chown -R $USER:$USER .
 ```
 
-### Comandos docker
+### 🐳 Comandos docker
 
 Iniciar o container:
 ```sh
@@ -120,17 +127,17 @@ docker exec -it --user root graphql-container npm install dotenv --save
 ```
 
 ### Comandos knex
-Para criar um nova migration
+Criar um nova migration
 ```sh
 docker exec -it graphql-container npx knex migrate:make tabela_perfis
 ```
 
-Executando as migrations
+Rodar as migrations
 ```sh
 docker exec -it graphql-container npx knex migrate:latest
 ```
 
-Executando rollback das migrations
+Rollbacks das migrations
 ```sh
 docker exec -it graphql-container npx knex migrate:rollback
 ```
@@ -141,11 +148,11 @@ docker exec -it graphql-container node testes/insert.js
 ```
 
 ---
-## **Exemplos de Queries e Mutations**
+## **📡 Exemplos de Queries e Mutations**
 
 Aqui estão alguns exemplos de operações que você pode realizar no Playground GraphQL:
 
-**Queries**
+**🔍 Queries**
 
 - **Listar todos os usuarios:**
 ```graphql
@@ -158,6 +165,39 @@ query {
         perfil {
             nome
         }
+    }
+}
+```
+
+- **Buscar usuário:**
+```graphql
+query {
+    usuario (
+        filtro: {
+            id: 1
+            # email: "rafa.jefer@gmail.com"
+        }
+    ) {
+        id nome email
+        perfis {
+            id nome rotulo
+        }
+    }
+}
+```
+
+- **Efetuar login:**
+```graphql
+query {
+    login(
+        dados: {
+            email: "rafa.jefer@gmail.com"
+            senha: "1235"
+        }
+    ) {
+        id nome email
+        perfis { nome }
+        token
     }
 }
 ```
@@ -176,19 +216,43 @@ fragment usuarioCompleto on Usuario {
 ```
 
 
-**Mutations**
+**✍ Mutations**
+
+- **Registrar usuário:**
+```graphql
+mutation {
+    registrarUsuario(
+        dados: {
+            nome: "Rafael pena"
+            email: "rafa.jefer@gmail.com"
+            senha: "1235"
+        }
+    ) {
+        id nome email
+        perfis { nome rotulo }
+    }
+}
+```
 
 - **Criar um novo usuário:**
 ```graphql
 mutation {
     novoUsuario(
         dados: {
-            nome: "Rafael",
-            email: "rafa.jefer@gmail.com",
-            idade: 30
+            nome: "Rafael"
+            email: "rafael@gmail.com"
+            senha: "123"
+            perfis: [
+                { id: 1 }
+                { nome: "admin" }
+                { nome: "master" }
+            ]
         }
     ) {
-        id nome email perfil { nome }
+        id nome email
+        perfis {
+            id nome
+        }
     }
 }
 ```
@@ -197,32 +261,46 @@ mutation {
 ```graphql
 mutation {
     alterarUsuario(
-        filtro: { id: 1 }
+        filtro: { email: "rafa.jefer@gmail.com"}
         dados: {
-            nome: "Rafael Jeferson"
+            nome: "Rafael Jeferson pena"
             email: "rafa.jefer@gmail.com"
-            idade: 31
+            senha: "1234"
+            perfis: [
+                { nome: "comum" }
+            ]
         }
-    ) {
-        id nome email idade
-    }
-}
-```
-```graphql
-mutation {
-    alterarUsuario(
-        filtro: { email: "rafa.jefer@gmail.com" }
-        dados: {
-            nome: "Rafael Jeferson"
-            email: "rafa.jefer@gmail.com"
-            idade: 31
+    )
+    {
+        id nome email
+        perfis {
+            id nome
         }
-    ) {
-        id nome email idade
     }
 }
 ```
 
+```graphql
+mutation {
+    alterarUsuario(
+        filtro: { id: 1 }
+        dados: {
+            nome: "Rafael Jeferson pena"
+            email: "rafa.jefer@gmail.com"
+            senha: "1234"
+            perfis: [
+                { nome: "comum" }
+            ]
+        }
+    )
+    {
+        id nome email
+        perfis {
+            id nome
+        }
+    }
+}
+```
 
 - **Excluir usuário:**
 ```graphql
@@ -246,8 +324,15 @@ mutation {
 ```
 ---
 
-## **Referências**
-**[Documentação Oficial do GraphQL](https://graphql.org/learn/)**  
-**[Documentação do Apollo Server](https://www.apollographql.com/docs/apollo-server)**  
-**[Documentação do knex](https://knexjs.org/guide/)**  
-**[Documentação do Docker](https://docs.docker.com/)**  
+## **📖 Referências**
+**🔗 [Documentação Oficial do GraphQL](https://graphql.org/learn/)**  
+**🔗 [Documentação do Apollo Server](https://www.apollographql.com/docs/apollo-server)**  
+**🔗 [Documentação do knex](https://knexjs.org/guide/)**  
+**🔗 [Documentação do Docker](https://docs.docker.com/)**  
+
+
+## **🤝 Contribuição**
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request ou relatar problemas na seção de issues.  
+
+## **📝 Licença**
+Este projeto é distribuído sob a licença MIT. Consulte o arquivo LICENSE para mais informações.
